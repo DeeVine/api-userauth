@@ -49,26 +49,11 @@ module.exports = function(app) {
     }
   });
 
-  let getArticles = function (object) {
-    axios({
-	      url:'https://api.nytimes.com/svc/search/v2/articlesearch.json',
-	      params:{ 'api-key': "7ca74794a0a64d579de04b287793ce32",
-	            'q': object.topic,
-	            'begin_date': object.startDate,
-	            'end_date': object.endDate}
-	    })
-	      .then(function(response) {
-	      // console.log(response);
-	      console.log(response.data.response.docs);
-        return response.data.response.docs;
-	    });
-  }
-
-  app.post("/api/nyt", function(req, res) {
+  app.post("/api/queryall", function(req, res) {
     // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
     // It will do this by sending out the value "true" have a table
 
-    function getSome (object) {
+    function getAllApis (object) {
       axios({
   	      url:'https://api.nytimes.com/svc/search/v2/articlesearch.json',
   	      params:{ 'api-key': "7ca74794a0a64d579de04b287793ce32",
@@ -83,22 +68,8 @@ module.exports = function(app) {
   	    });
     }
 
-    getSome(req.body);
+    getAllApis(req.body);
 
-
-    // console.log(req.body);
-    // console.log(getArticles(req.body));
-    // getArticles(req.body);
-    //
-    // res.json(true);
-    // if (tableData.length < 5) {
-    //   tableData.push(req.body);
-    //   res.json(true);
-    // }
-    // else {
-    //   waitListData.push(req.body);
-    //   res.json(false);
-    // }
   });
 
 

@@ -19,16 +19,13 @@
       <hr>
       <h2 class="text-center">We only have 5 tables! Book your seat before they all are gone!</h2>
       <br>
-
       <div class="text-center">
         <a href="/tables"><button type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span> View Tables</button></a>
         <a href="/reserve"><button type="button" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</button></a>
       </div>
-
     </div>
 
     <div>
-
       <form>
         <label for='topic'>Topic</label>
         <input id='input-topic' type='text' value='food'></input>
@@ -38,9 +35,7 @@
         <input id='input-end-date' type='text' value='20171125'></input>
         <button id='search-button' type='submit'>Search</button>
       </form>
-
     </div>
-
 
     <footer class="footer">
       <div class="container">
@@ -50,24 +45,9 @@
 
   </div>
 
-
 </body>
 
 <script>
-
-  let getArticles = function (object) {
-    axios({
-	      url:'https://api.nytimes.com/svc/search/v2/articlesearch.json',
-	      params:{ 'api-key': "7ca74794a0a64d579de04b287793ce32",
-	            'q': object.topic,
-	            'begin_date': object.startDate,
-	            'end_date': object.endDate}
-	    })
-	      .then(function(response) {
-	      // console.log(response);
-	      console.log(response.data.response.docs);
-	    });
-  }
 
   //add click event to submit button
   document.querySelector('#search-button').onclick = function (event) {
@@ -81,17 +61,18 @@
       startDate: document.querySelector('#input-start-date').value,
       endDate: document.querySelector('#input-end-date').value
     }
-    //post data to database
-    $.post("/api/nyt", newSubmission,
-      function(data) {
+    //send data to server
+    $.post("/api/queryall", newSubmission,
+    function(data) {
         // If a table is available... tell user they are booked.
         if (data) {
-          alert("Yay! You are officially booked!");
+          // alert("Yay! You are officially booked!");
           console.log(data);
         }
         // If a table is available... tell user they on the waiting list.
         else {
-          alert("Sorry you are on the wait list");
+          // alert("Sorry you are on the wait list");
+          console.log('error, not data came through')
         }
         // Clear the form when submitting
         // $("#reserve-name").val("");
