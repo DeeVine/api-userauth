@@ -1,0 +1,24 @@
+{
+  "name": "api-userauth",
+  "version": "1.0.0",
+  "description": "an app to handle combining of api data, returning to client, and handling concurrent user get/post requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeeVine/api-userauth.git"
+  },
+  "author": "darren",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DeeVine/api-userauth/issues"
+  },
+  "homepage": "https://github.com/DeeVine/api-userauth#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}

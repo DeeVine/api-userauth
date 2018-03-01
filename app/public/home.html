@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tables Page</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="jumbotron">
+      <h1 class="text-center"><span class="glyphicon glyphicon-fire"></span> Hot Restaurant</h1>
+      <hr>
+      <h2 class="text-center">We only have 5 tables! Book your seat before they all are gone!</h2>
+      <br>
+
+      <div class="text-center">
+        <a href="/tables"><button type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span> View Tables</button></a>
+        <a href="/reserve"><button type="button" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</button></a>
+      </div>
+
+    </div>
+
+    <div>
+      <form>
+        <label for='topic'>Topic</label>
+        <input id='input-topic' type='text' value='food'></input>
+        <label for='start-date'>Start Date</label>
+        <input id='input-start-date' type='text' value='20171120'></input>
+        <label for='end-date'>End Date</label>
+        <input id='input-end-date' type='text' value='20171125'></input>
+        <button id='search-button' type='submit'>Search</button>
+      </form>
+
+    </div>
+
+
+    <footer class="footer">
+      <div class="container">
+        <p><a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API Wait List</a> | <a href="https://github.com/afhaque/HotRestaurant">GitHub Repo</a></p>
+      </div>
+    </footer>
+
+  </div>
+
+
+</body>
+
+<script>
+
+  let getArticles = function (object) {
+    axios({
+	      url:'https://api.nytimes.com/svc/search/v2/articlesearch.json',
+	      params:{ 'api-key': "7ca74794a0a64d579de04b287793ce32",
+	            'q': object.topic,
+	            'begin_date': object.startDate,
+	            'end_date': object.endDate}
+	    })
+	      .then(function(response) {
+	      // console.log(response);
+	      console.log(response.data.response.docs);
+	    });
+  }
+
+  //add click event to submit button
+  document.querySelector('#search-button').onclick = function (event) {
+    event.preventDefault();
+    console.log(document.querySelector('#input-topic').value)
+    console.log('testing submit button');
+
+    //create object from input fields
+    let newSubmission = {
+      topic: document.querySelector('#input-topic').value,
+      startDate: document.querySelector('#input-start-date').value,
+      endDate: document.querySelector('#input-end-date').value
+    }
+    //post data to database
+    $.post("/api/nyt", newSubmission,
+      function(data) {
+        // If a table is available... tell user they are booked.
+        if (data) {
+          alert("Yay! You are officially booked!");
+        }
+        // If a table is available... tell user they on the waiting list.
+        else {
+          alert("Sorry you are on the wait list");
+        }
+        // Clear the form when submitting
+        // $("#reserve-name").val("");
+        // $("#reserve-phone").val("");
+        // $("#reserve-email").val("");
+        // $("#reserve-unique-id").val("");
+      });
+
+    console.log(newSubmission);
+    // getArticles(newSubmission);
+  }
+
+</script>
+
+</html>
